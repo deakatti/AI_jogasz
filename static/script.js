@@ -17,6 +17,7 @@ let history = [];
 let sending = false;
 let hungarianVoice = null;
 let mouthAnimId = null;
+let currentMode = 'fast';
 
 function setStatus(text, cls) {
     statusEl.textContent = text;
@@ -178,7 +179,7 @@ async function sendMessage() {
         const res = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: history }),
+            body: JSON.stringify({ messages: history, mode: currentMode }),
         });
         const data = await res.json();
         removeTyping();
@@ -304,6 +305,18 @@ if (!SR) {
         }
     });
 }
+
+// --- Mode switch ---
+
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => {
+            b.classList.toggle('active', b === btn);
+            b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        currentMode = btn.dataset.mode;
+    });
+});
 
 initVoices();
 scheduleBlink();

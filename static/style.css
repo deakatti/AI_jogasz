@@ -106,7 +106,37 @@ html, body {
 .controls {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
+}
+
+.mode-switch {
+    display: inline-flex;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 3px;
+    gap: 2px;
+}
+.mode-btn {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,0.75);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+.mode-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.mode-btn.active {
+    background: var(--ih-paper);
+    color: var(--ih-primary);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .voice-toggle {
