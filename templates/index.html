@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Jogász — Közbeszerzési szakértő</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="brand">
+                <div class="brand-mark">AI</div>
+                <div class="title">
+                    <h1>AI Jogász</h1>
+                    <p class="subtitle">Közbeszerzési szakértő · Integritás Hatóság</p>
+                </div>
+            </div>
+            <div class="controls">
+                <label class="voice-toggle" title="Hang ki/be">
+                    <input type="checkbox" id="voice-toggle" checked>
+                    <span>Hang</span>
+                </label>
+                <button id="reset-btn" class="reset-btn" title="Új beszélgetés">Új beszélgetés</button>
+            </div>
+        </header>
+
+        <div class="body">
+            <aside class="avatar-panel">
+                <div class="avatar-wrap" id="avatar-wrap">
+                    <div class="avatar-frame">
+                        <svg viewBox="0 0 260 300" class="avatar-svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#F4D9B6"/>
+                                    <stop offset="55%" stop-color="#E6BF94"/>
+                                    <stop offset="100%" stop-color="#C99A6D"/>
+                                </linearGradient>
+                                <radialGradient id="skin-cheek" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#E89B7E" stop-opacity="0.55"/>
+                                    <stop offset="100%" stop-color="#E89B7E" stop-opacity="0"/>
+                                </radialGradient>
+                                <linearGradient id="hair" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#3A2414"/>
+                                    <stop offset="100%" stop-color="#1B0E06"/>
+                                </linearGradient>
+                                <!-- IH primary suit -->
+                                <linearGradient id="suit" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#362e59"/>
+                                    <stop offset="100%" stop-color="#201747"/>
+                                </linearGradient>
+                                <!-- tie: slightly darker than suit -->
+                                <linearGradient id="tie" x1="0" x2="1" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#2B1F52"/>
+                                    <stop offset="100%" stop-color="#14093A"/>
+                                </linearGradient>
+                                <linearGradient id="iris" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#6B4824"/>
+                                    <stop offset="100%" stop-color="#3A2613"/>
+                                </linearGradient>
+                                <radialGradient id="bg-halo" cx="50%" cy="35%" r="70%">
+                                    <stop offset="0%" stop-color="#FDFDFE"/>
+                                    <stop offset="100%" stop-color="#E2DDDF"/>
+                                </radialGradient>
+                            </defs>
+
+                            <rect width="260" height="300" fill="url(#bg-halo)"/>
+
+                            <!-- Suit & shoulders -->
+                            <path d="M 10 300 Q 40 225 90 230 L 130 260 L 170 230 Q 220 225 250 300 Z" fill="url(#suit)"/>
+                            <!-- Lapel shadows -->
+                            <path d="M 90 230 L 130 260 L 112 295 L 82 295 Z" fill="#140A32" opacity="0.55"/>
+                            <path d="M 170 230 L 130 260 L 148 295 L 178 295 Z" fill="#140A32" opacity="0.55"/>
+                            <!-- Lapel highlights -->
+                            <path d="M 92 232 L 127 258 L 122 268 L 96 240 Z" fill="#4a4176" opacity="0.5"/>
+                            <path d="M 168 232 L 133 258 L 138 268 L 164 240 Z" fill="#4a4176" opacity="0.5"/>
+
+                            <!-- Shirt collar -->
+                            <path d="M 112 260 L 130 278 L 148 260 L 145 295 L 115 295 Z" fill="#FFFFFF"/>
+                            <path d="M 115 262 L 130 276 L 145 262 L 143 270 L 130 280 L 117 270 Z" fill="#E2DDDF"/>
+
+                            <!-- Tie knot -->
+                            <path d="M 122 262 L 130 270 L 138 262 L 140 280 L 130 286 L 120 280 Z" fill="url(#tie)"/>
+                            <path d="M 124 264 L 130 269 L 136 264 L 135 272 L 130 275 L 125 272 Z" fill="#0a0322" opacity="0.55"/>
+                            <!-- Tie body -->
+                            <path d="M 122 282 L 138 282 L 143 300 L 117 300 Z" fill="url(#tie)"/>
+                            <!-- Subtle diagonal tie stripe (IH style) -->
+                            <line x1="118" y1="295" x2="142" y2="285" stroke="#4a4176" stroke-width="1" opacity="0.5"/>
+                            <line x1="119" y1="300" x2="143" y2="290" stroke="#4a4176" stroke-width="1" opacity="0.5"/>
+
+                            <!-- Neck -->
+                            <path d="M 108 220 L 108 262 Q 130 272 152 262 L 152 220 Z" fill="url(#skin)"/>
+                            <ellipse cx="130" cy="222" rx="26" ry="8" fill="#A57043" opacity="0.35"/>
+
+                            <!-- Ears -->
+                            <ellipse cx="52" cy="150" rx="8" ry="14" fill="url(#skin)"/>
+                            <ellipse cx="208" cy="150" rx="8" ry="14" fill="url(#skin)"/>
+                            <path d="M 50 148 Q 54 145 56 152 Q 54 158 50 156" fill="#A57043" opacity="0.4"/>
+                            <path d="M 210 148 Q 206 145 204 152 Q 206 158 210 156" fill="#A57043" opacity="0.4"/>
+
+                            <!-- Face shape -->
+                            <path d="M 60 145
+                                     Q 60 80 130 75
+                                     Q 200 80 200 145
+                                     Q 200 190 180 215
+                                     Q 160 232 130 232
+                                     Q 100 232 80 215
+                                     Q 60 190 60 145 Z"
+                                  fill="url(#skin)"/>
+
+                            <ellipse cx="82" cy="170" rx="18" ry="10" fill="url(#skin-cheek)"/>
+                            <ellipse cx="178" cy="170" rx="18" ry="10" fill="url(#skin-cheek)"/>
+
+                            <path d="M 72 195 Q 100 225 130 228 Q 160 225 188 195 Q 180 220 150 230 Q 130 233 110 230 Q 80 220 72 195 Z"
+                                  fill="#A57043" opacity="0.22"/>
+
+                            <!-- Hair back -->
+                            <path d="M 55 135 Q 48 70 115 55 Q 175 52 205 95 Q 210 130 208 160 Q 200 110 180 88 Q 140 70 115 72 Q 80 78 65 110 Q 58 135 55 160 Z"
+                                  fill="url(#hair)"/>
+                            <!-- Hair front with side part -->
+                            <path d="M 64 115 Q 70 58 138 58 Q 190 62 200 120 Q 195 95 170 82 Q 148 76 135 80 L 120 110 Q 130 90 125 82 Q 100 78 80 95 Q 68 108 64 120 Z"
+                                  fill="url(#hair)"/>
+                            <path d="M 138 62 Q 137 75 132 95" stroke="#0D0602" stroke-width="1.5" fill="none" opacity="0.7"/>
+                            <path d="M 80 85 Q 110 68 145 72" stroke="#5C3C20" stroke-width="2" fill="none" opacity="0.35" stroke-linecap="round"/>
+
+                            <path d="M 62 150 Q 60 168 68 178" stroke="url(#hair)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                            <path d="M 198 150 Q 200 168 192 178" stroke="url(#hair)" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+                            <!-- Eyebrows -->
+                            <path d="M 78 135 Q 95 128 112 134 Q 100 131 78 135 Z" fill="#1B0E06"/>
+                            <path d="M 148 134 Q 165 128 182 135 Q 165 131 148 134 Z" fill="#1B0E06"/>
+
+                            <!-- Eye sockets -->
+                            <ellipse cx="95" cy="150" rx="14" ry="6" fill="#A57043" opacity="0.2"/>
+                            <ellipse cx="165" cy="150" rx="14" ry="6" fill="#A57043" opacity="0.2"/>
+
+                            <!-- Eye whites -->
+                            <ellipse cx="95" cy="152" rx="10" ry="5" fill="#F6F4EE"/>
+                            <ellipse cx="165" cy="152" rx="10" ry="5" fill="#F6F4EE"/>
+
+                            <circle cx="95" cy="152" r="4.5" fill="url(#iris)"/>
+                            <circle cx="165" cy="152" r="4.5" fill="url(#iris)"/>
+                            <circle id="pupil-l" cx="95" cy="152" r="2.2" fill="#0A0604"/>
+                            <circle id="pupil-r" cx="165" cy="152" r="2.2" fill="#0A0604"/>
+                            <circle cx="96.5" cy="150.5" r="1.2" fill="#FFFFFF"/>
+                            <circle cx="166.5" cy="150.5" r="1.2" fill="#FFFFFF"/>
+
+                            <path d="M 86 156 Q 95 158 104 156" stroke="#2A1B0E" stroke-width="0.7" fill="none" opacity="0.6"/>
+                            <path d="M 156 156 Q 165 158 174 156" stroke="#2A1B0E" stroke-width="0.7" fill="none" opacity="0.6"/>
+
+                            <rect id="lid-l" x="85" y="147" width="20" height="0" fill="url(#skin)" rx="2"/>
+                            <rect id="lid-r" x="155" y="147" width="20" height="0" fill="url(#skin)" rx="2"/>
+
+                            <!-- Glasses (thin IH-violet tinted frame) -->
+                            <rect x="78" y="140" width="34" height="24" rx="6" fill="none" stroke="#201747" stroke-width="1.4"/>
+                            <rect x="148" y="140" width="34" height="24" rx="6" fill="none" stroke="#201747" stroke-width="1.4"/>
+                            <line x1="112" y1="150" x2="148" y2="150" stroke="#201747" stroke-width="1.4"/>
+                            <path d="M 82 144 L 92 144 L 88 150 L 82 150 Z" fill="#FFFFFF" opacity="0.12"/>
+                            <path d="M 152 144 L 162 144 L 158 150 L 152 150 Z" fill="#FFFFFF" opacity="0.12"/>
+
+                            <!-- Nose -->
+                            <path d="M 130 150 Q 122 180 126 192 Q 130 196 134 192 Q 138 180 130 150"
+                                  fill="#C99A6D" opacity="0.45"/>
+                            <path d="M 129 158 Q 128 175 129 186" stroke="#FBE9D0" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+                            <ellipse cx="125" cy="192" rx="2" ry="1.4" fill="#8B5A32" opacity="0.55"/>
+                            <ellipse cx="135" cy="192" rx="2" ry="1.4" fill="#8B5A32" opacity="0.55"/>
+
+                            <!-- Mouth -->
+                            <path d="M 108 206 Q 130 214 152 206 Q 140 212 130 213 Q 120 212 108 206 Z" fill="#8B3A3A" opacity="0.35"/>
+
+                            <g id="mouth-group">
+                                <path id="lip-upper" d="M 108 206 Q 118 200 128 204 Q 130 202 132 204 Q 142 200 152 206 Q 140 210 130 209 Q 120 210 108 206 Z" fill="#A84F54"/>
+                                <path id="lip-lower" d="M 108 206 Q 120 214 130 215 Q 140 214 152 206 Q 140 218 130 219 Q 120 218 108 206 Z" fill="#C26569"/>
+                                <ellipse id="mouth-inner" cx="130" cy="210" rx="14" ry="0.8" fill="#2E0A0D"/>
+                            </g>
+
+                            <path d="M 128 224 Q 130 228 132 224" stroke="#A57043" stroke-width="0.8" fill="none" opacity="0.4"/>
+                        </svg>
+                    </div>
+
+                    <div class="name-plate">
+                        <div class="name">Dr. Algo István</div>
+                        <div class="role">Közbeszerzési tanácsadó</div>
+                    </div>
+
+                    <div class="status" id="status">készenlétben</div>
+                </div>
+            </aside>
+
+            <main id="chat" class="chat">
+                <div class="message assistant">
+                    <div class="bubble">Üdvözlöm! Dr. Algo István vagyok, közbeszerzési tanácsadó. Segítek magyar jogi kérdésekben, különösen a közbeszerzési jog (Kbt., EKR, jogorvoslat) területén. Miben segíthetek?</div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="composer">
+            <textarea id="input" placeholder="Írja be a jogi kérdését... (Enter = küldés, Shift+Enter = új sor)" rows="2"></textarea>
+            <button id="mic-btn" class="mic-btn" title="Beszéd (Chrome / Edge)">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                    <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3z"/>
+                    <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21h-2a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-3.08A7 7 0 0 0 19 11z"/>
+                </svg>
+            </button>
+            <button id="send-btn">Küldés</button>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
